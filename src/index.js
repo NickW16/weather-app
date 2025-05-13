@@ -9,6 +9,10 @@ console.log('test');
     resultDiv.classList.add('result-div');
     const submitBtn = document.getElementById('submit-city');
 
+    // this displays the current weather information
+    let currentWeatherDiv = document.createElement('div');
+    currentWeatherDiv.id = 'current-weather';
+
     let firstSection = document.createElement('div'); // this organizes the current city and weather description so that is separated from the day-by-day weather forecast
     firstSection.classList.add('first-section');
     // this is a div to organize the days below the main text weather description
@@ -17,6 +21,7 @@ console.log('test');
 
     submitBtn.addEventListener('click', () => { //refreshes and searches for new data
         resultDiv.textContent = '';
+        currentWeatherDiv.textContent = '';
         firstSection.textContent = '';
         secondSection.textContent = '';
         receiveData();
@@ -30,8 +35,39 @@ console.log('test');
 
         // this section fetches data from the API
         // it fetches data from the current day up to the 5 next days
-        const response = await fetch(`https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${content}/next5days?unitGroup=metric&key=HWSEF7KS97GJ47ABSK7P2AN6B`)
+        const response = await fetch(`https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${content}/next5days?unitGroup=metric&include=current&key=HWSEF7KS97GJ47ABSK7P2AN6B`)
         const apiData = await response.json();
+
+        // this section gets the current weather condition and appends all to a div
+        const currentWeather = document.createElement('div');
+
+        const currentDatetimeDiv = document.createElement('div');
+        currentDatetimeDiv.textContent = `Most recent condition at ${apiData.currentConditions.datetime}Hrs:`;
+        currentWeather.appendChild(currentDatetimeDiv);
+
+        //this is for better css styling
+        const divIconAndTemp = document.createElement('div');
+        divIconAndTemp.id = 'current-icon-and-temp';
+
+        let currentIcon = document.createElement('img');
+        const currentIconPath = require(`./weather-icons/${apiData.currentConditions.icon}.png`);
+        currentIcon.src = currentIconPath;
+        currentIcon.classList.add('current-weather-icon');
+        divIconAndTemp.appendChild(currentIcon); // append
+
+        const currentTemp = document.createElement('div');
+        currentTemp.textContent = `${apiData.currentConditions.temp}°C`;
+        currentTemp.id = 'current-temperature';
+        divIconAndTemp.appendChild(currentTemp); // append
+        currentWeather.appendChild(divIconAndTemp);
+
+        const currentConditionsDiv = document.createElement('div');
+        currentConditionsDiv.textContent = apiData.currentConditions.conditions;
+        currentConditionsDiv.id = 'current-conditions';
+        currentWeather.appendChild(currentConditionsDiv);
+
+        currentWeatherDiv.appendChild(currentWeather); //append to the main div on the top
+
 
         // display city description
         const addressCompleteName = document.createElement('div');
@@ -42,14 +78,16 @@ console.log('test');
         description.textContent = apiData.description || apiData.days[0].description || 'No description available';
         firstSection.appendChild(description);
 
-        resultDiv.appendChild(firstSection);// append both
+        resultDiv.appendChild(currentWeatherDiv);
+        resultDiv.appendChild(firstSection);// append all
         resultDiv.appendChild(secondSection);
 
         // add all of address' info:
         function displayWeatherForecast(day) {
         
             const eachDayDiv = document.createElement('div'); // this is just for styling
-        
+            eachDayDiv.classList.add('each-day-div');
+
             const currentDate = document.createElement('div');
             //convert 'datetime' into a date object like '2025-01-01'
             const dateObj = new Date(apiData.days[day].datetime);
