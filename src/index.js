@@ -25,7 +25,7 @@ console.log('test');
         currentWeatherDiv.textContent = '';
         firstSection.textContent = '';
         secondSection.textContent = '';
-        errorMessage.textContent = '';
+        errorMessage.style.display = 'none';
         receiveData();
     });
 
@@ -131,12 +131,12 @@ console.log('test');
             console.log(resultDiv.textContent);
         }
 
-    // receiveData().catch(e => { //this handles errors
-    //     console.log(e);
-    //     const errorMessage = document.getElementById('error');
-    //     errorMessage.textContent = 'error';
-    //     errorMessage.style.display = 'block';
-    // });
+    // apparently, this calls the function so i cannot remove it
+    // it does not handle the error, but if it goes out, it breaks
+    // the code
+     receiveData().catch(e => { //this handles errors
+         console.log(e);
+     });
 
 })();
 

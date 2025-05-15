@@ -98,5 +98,8 @@ body {
 /* error handling */
 
 #error {
-    display: block;
+    padding: 10px;
+    font-weight: bold;
+    color: brown;
+    display: none;
 }
