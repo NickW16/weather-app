@@ -65,6 +65,14 @@ console.log('test');
 
         const currentTemp = document.createElement('div');
         currentTemp.textContent = `${apiData.currentConditions.temp}°C`;
+
+        // this changes colors based on the temperature
+        if ((apiData.currentConditions.temp) >= 25) {
+            currentTemp.classList.add('hot-temp');
+        } else {
+            currentTemp.classList.add('cold-temp');
+        }
+
         currentTemp.id = 'current-temperature';
         divIconAndTemp.appendChild(currentTemp); // append
         currentWeather.appendChild(divIconAndTemp);
@@ -116,9 +124,15 @@ console.log('test');
             iconImg.alt = iconName; // alt name
             eachDayDiv.appendChild(iconImg); // append this shit
 
-            const currentTemperatureDiv = document.createElement('div');
-            currentTemperatureDiv.textContent = `${apiData.days[day].temp}°C`;
-            eachDayDiv.appendChild(currentTemperatureDiv);
+            const maxTemperatureDiv = document.createElement('div');
+            maxTemperatureDiv.classList.add('max-temp');
+            maxTemperatureDiv.textContent = `${apiData.days[day].tempmax}°C`;
+            eachDayDiv.appendChild(maxTemperatureDiv);
+
+            const minTemperatureDiv = document.createElement('div');
+            minTemperatureDiv.classList.add('min-temp');
+            minTemperatureDiv.textContent = `${apiData.days[day].tempmin}°C`;
+            eachDayDiv.appendChild(minTemperatureDiv);
 
             secondSection.appendChild(eachDayDiv);
             }
