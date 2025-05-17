@@ -10,6 +10,9 @@ console.log('test');
     const submitBtn = document.getElementById('submit-city');
     const errorMessage = document.getElementById('error');
 
+    const loadingScreen = document.getElementById('loading');
+    loadingScreen.style.display = 'block'; // show loading
+
     // this displays the current weather information
     let currentWeatherDiv = document.createElement('div');
     currentWeatherDiv.id = 'current-weather';
@@ -21,6 +24,7 @@ console.log('test');
     secondSection.classList.add('second-section');
 
     submitBtn.addEventListener('click', () => { //refreshes and searches for new data
+        loadingScreen.style.display = 'block'; // for showing load screen when the user presses the button 
         resultDiv.textContent = '';
         currentWeatherDiv.textContent = '';
         firstSection.textContent = '';
@@ -45,6 +49,7 @@ console.log('test');
         }
 
         const apiData = await response.json();
+        loadingScreen.style.display = 'none';
 
         // this section gets the current weather condition and appends all to a div
         const currentWeather = document.createElement('div');
@@ -60,7 +65,7 @@ console.log('test');
         let currentIcon = document.createElement('img');
         const currentIconPath = require(`./weather-icons/${apiData.currentConditions.icon}.png`);
         currentIcon.src = currentIconPath;
-        currentIcon.classList.add('current-weather-icon');
+        currentIcon.classList.add('all-weather-icons');
         divIconAndTemp.appendChild(currentIcon); // append
 
         const currentTemp = document.createElement('div');
@@ -95,7 +100,7 @@ console.log('test');
         firstSection.appendChild(description);
 
         resultDiv.appendChild(currentWeatherDiv);
-        resultDiv.appendChild(firstSection);// append all
+        currentWeatherDiv.appendChild(firstSection);// append to current weather
         resultDiv.appendChild(secondSection);
 
         // add all of address' info:
@@ -103,6 +108,7 @@ console.log('test');
 
             const eachDayDiv = document.createElement('div'); // this is just for styling
             eachDayDiv.classList.add('each-day-div');
+
 
             const currentDate = document.createElement('div');
             //convert 'datetime' into a date object like '2025-01-01'
@@ -112,6 +118,7 @@ console.log('test');
             const weekdayName = dateObj.toLocaleDateString('en-US', { weekday: 'long' });
 
             currentDate.textContent = weekdayName;
+            currentDate.classList.add('each-weekday-forecast'); // styling points
             eachDayDiv.appendChild(currentDate);
 
             // weather forecast icon appending
@@ -119,6 +126,7 @@ console.log('test');
             const iconPath = require(`./weather-icons/${iconName}.png`);// icon path
 
             let iconImg = document.createElement('img');
+            iconImg.classList.add('all-weather-icons');
             iconImg.classList.add('weather-icon');
             iconImg.src = iconPath; // difficult asf
             iconImg.alt = iconName; // alt name
