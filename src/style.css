@@ -189,3 +189,19 @@ body {
     0%, 100% { transform: scale(1.1); }
     50% { transform: scale(1.05); }
 }
+
+#footer {
+    font-weight: 500;
+    font-size: 15px;
+    padding: 20px;
+}
+
+#github-image {
+    height: 30px;
+    filter: invert(100%);
+}
+
+#github-image:hover {
+    filter: invert(0%);
+    transition: 0.2s;
+}
