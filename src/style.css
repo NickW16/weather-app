@@ -41,7 +41,6 @@ body {
     align-items: center;
     justify-content: center;
     padding: 15px;
-    margin: 5px;
 }
 
 
@@ -105,7 +104,6 @@ body {
     flex-direction: column;
     align-items: center;
     padding: 5px;
-    width: 640px;
 }
 
 .first-section {
@@ -113,7 +111,7 @@ body {
     padding: 10px;
 }
 
-/* forecast section */
+/* second section */
 
 .second-section {
     border: 1px solid var(--shadow-color); /* light gray border */
@@ -121,8 +119,9 @@ body {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     background-color: var(--standard-white);
     font-size: 18px;
+    font-weight: bold;
     display: flex;
-    width: 700px;
+    width: 100%;
     margin-top: 10px;
     justify-content: space-around;
     gap: 30px;
@@ -131,6 +130,7 @@ body {
 
 .each-day-div {
     display: flex;
+    width: 10%;
     flex-direction: column;
     align-items: center;
     justify-content: space-around;
@@ -156,7 +156,8 @@ body {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     background-color: var(--standard-white);
     font-size: 18px;
-    width: 400px;
+    justify-self: center;
+    width: 70%;
     overflow: auto;
     margin-top: 10px;
     padding: 15px;
@@ -248,4 +249,30 @@ body {
 #github-image:hover {
     filter: invert(0%);
     transition: 0.2s;
+}
+
+/* responsiveness section */
+
+@media (max-width: 768px) {
+    .second-section {
+        font-size: 11px;
+        width: 100%;
+        gap: 10px;
+        align-items: center;
+  }
+    .second-section-icon {
+        width: 40px;
+  }
+    .min-temp,
+    .max-temp {
+        font-size: 13px;
+    }
+
+   .result-div {
+        width: 100%;        
+   } 
+
+   .conditions-div {
+        width: 95%;
+   }
 }

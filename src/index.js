@@ -134,6 +134,7 @@ console.log('test');
             let iconImg = document.createElement('img');
             iconImg.classList.add('all-weather-icons');
             iconImg.classList.add('weather-icon');
+            iconImg.classList.add('second-section-icon');
             iconImg.src = iconPath; // difficult asf
             iconImg.alt = iconName; // alt name
             eachDayDiv.appendChild(iconImg); // append this shit
