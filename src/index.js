@@ -23,12 +23,16 @@ console.log('test');
     let secondSection = document.createElement('div');
     secondSection.classList.add('second-section');
 
+    let thirdSection = document.createElement('div');
+    thirdSection.classList.add('third-section');
+
     submitBtn.addEventListener('click', () => { //refreshes and searches for new data
         loadingScreen.style.display = 'block'; // for showing load screen when the user presses the button 
         resultDiv.textContent = '';
         currentWeatherDiv.textContent = '';
         firstSection.textContent = '';
         secondSection.textContent = '';
+        thirdSection.textContent = '';
         errorMessage.style.display = 'none';
         receiveData();
     });
@@ -102,7 +106,9 @@ console.log('test');
         resultDiv.appendChild(currentWeatherDiv);
         currentWeatherDiv.appendChild(firstSection);// append to current weather
         resultDiv.appendChild(secondSection);
+        resultDiv.appendChild(thirdSection);
 
+        // this functions creates the first day-by-day weather info
         // add all of address' info:
         function displayWeatherForecast(day) {        
 
@@ -143,15 +149,91 @@ console.log('test');
             eachDayDiv.appendChild(minTemperatureDiv);
 
             secondSection.appendChild(eachDayDiv);
-            }
-
-            //displays results for the next 5 days
-            for(let i = 0; i <= 5; i++) {
-                displayWeatherForecast(i);
-            }
-
-            console.log(resultDiv.textContent);
         }
+
+        //displays results for the next 5 days
+        for(let i = 0; i <= 5; i++) {
+            displayWeatherForecast(i);
+        }
+
+        console.log(resultDiv.textContent);
+
+        // this is basically a copy of the other function, but with conditions
+        function displayEachDayConditions (day) {
+
+            // main container
+            const conditionsDiv = document.createElement('div');
+            conditionsDiv.classList.add('conditions-div');
+
+            // this is for styling in flex
+            const conditionsDivOne = document.createElement('div');
+            conditionsDivOne.classList.add('conditions-part-one');
+            conditionsDiv.appendChild(conditionsDivOne);
+
+            //this one too
+            const conditionsDivTwo = document.createElement('div');
+            conditionsDivTwo.classList.add('conditions-part-two');
+
+            const currentDate = document.createElement('div');
+            //convert 'datetime' into a date object like '2025-01-01'
+            const dateObj = new Date(apiData.days[day+1].datetime); // "+1" is for the api to not be stupid and prove the yesterday's weather data
+            // get weekday name (e.g., "Thursday")   
+            const weekdayName = dateObj.toLocaleDateString('en-US', { weekday: 'long' });
+
+            currentDate.textContent = weekdayName;
+            currentDate.classList.add('conditions-each-date'); // styling points
+            conditionsDivOne.appendChild(currentDate);
+
+            const iconName = apiData.days[day].icon;
+            const iconPath = require(`./weather-icons/${iconName}.png`);// icon path
+
+            let iconImg = document.createElement('img');
+            iconImg.classList.add('all-weather-icons');
+            iconImg.classList.add('weather-icon');
+            iconImg.src = iconPath; // difficult asf
+            iconImg.alt = iconName; // alt name
+            conditionsDivOne.appendChild(iconImg); // append this shit
+
+            const averageTemp = document.createElement('div');
+            averageTemp.classList.add('average-temp');
+            averageTemp.textContent = `${apiData.days[day].temp}°C`;
+            conditionsDivOne.appendChild(averageTemp);
+
+            const dayCondition = document.createElement('div');
+            dayCondition.classList.add('conditions-description');
+            dayCondition.textContent = `${apiData.days[day].description}`;
+            conditionsDiv.appendChild(dayCondition);
+
+            const rainTitle = document.createElement('div');
+            rainTitle.textContent = 'Precip:';
+            conditionsDivTwo.appendChild(rainTitle);
+
+            // gambiarra pra colocar uma gota d'água
+            let waterDrop = document.createElement('img');
+            const waterPath = require('./weather-icons/water-outline.png');
+            waterDrop.classList.add('all-weather-icons');
+            waterDrop.classList.add('water-drop');
+            waterDrop.src = waterPath;
+            conditionsDivTwo.appendChild(waterDrop);
+
+            const precipitation = document.createElement('div');
+            precipitation.textContent = `${apiData.days[day].precipprob}%`;
+            precipitation.classList.add('precipitation');
+            conditionsDivTwo.appendChild(precipitation);
+            
+
+            // this is appended later for styling reasons
+            conditionsDiv.appendChild(conditionsDivTwo);
+
+            thirdSection.appendChild(conditionsDiv);
+
+            }
+
+        for(let y = 0; y <= 5; y++) {
+            displayEachDayConditions(y);
+        }
+    }
+
 
     // apparently, this calls the function so i cannot remove it
     // it does not handle the error, but if it goes out, it breaks

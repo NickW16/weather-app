@@ -148,6 +148,48 @@ body {
     color: var(--standard-blue);
 }
 
+/* conditions part */
+
+.conditions-div {
+    border: 1px solid var(--shadow-color); /* light gray border */
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    background-color: var(--standard-white);
+    font-size: 18px;
+    width: 400px;
+    overflow: auto;
+    margin-top: 10px;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 30px;
+}
+
+.conditions-part-one {
+    display: flex;
+    width: 80px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.conditions-part-two {
+    color: var(--standard-blue);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.water-drop {
+    height: 50px;
+    /* this turns the icon blue */
+    filter: brightness(0) saturate(100%) invert(15%) sepia(98%) saturate(747%) hue-rotate(180deg) brightness(100%) contrast(100%);
+}
+
+
+
 /* error handling */
 
 #error {
@@ -189,6 +231,8 @@ body {
     0%, 100% { transform: scale(1.1); }
     50% { transform: scale(1.05); }
 }
+
+/* footer stuff */
 
 #footer {
     font-weight: 500;
